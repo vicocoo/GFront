@@ -16,9 +16,36 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-export { CTA } from './sections/cta'
-export { Features } from './sections/features'
-export { Hero } from './sections/hero'
-export { HowItWorks } from './sections/how-it-works'
-export { PicDesignHome } from './picdesign-home'
-export { Stats } from './sections/stats'
+import { useRef } from 'react'
+
+import { usePixelTitle } from '../../hooks'
+
+type PixelTitleProps = {
+  text: string
+}
+
+export function PixelTitle(props: PixelTitleProps) {
+  const rootRef = useRef<HTMLSpanElement>(null)
+  const textRef = useRef<HTMLSpanElement>(null)
+  const layerRef = useRef<HTMLSpanElement>(null)
+
+  usePixelTitle({
+    text: props.text,
+    rootRef,
+    textRef,
+    layerRef,
+  })
+
+  return (
+    <span ref={rootRef} className='picdesign-pixel-title'>
+      <span ref={textRef} className='picdesign-pixel-text'>
+        {props.text}
+      </span>
+      <span
+        ref={layerRef}
+        className='picdesign-pixel-canvas'
+        aria-hidden='true'
+      />
+    </span>
+  )
+}

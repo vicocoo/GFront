@@ -17,3 +17,5 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 export { useHomePageContent } from './use-home-page-content'
+export { usePicDesignReveal } from './use-picdesign-reveal'
+export { usePixelTitle } from './use-pixel-title'
