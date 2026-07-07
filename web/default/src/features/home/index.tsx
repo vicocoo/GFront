@@ -58,13 +58,7 @@ export function Home() {
   }, [isUrl, syncIframePreferences])
 
   if (!isLoaded) {
-    return (
-      <PublicLayout showMainContainer={false}>
-        <main className='flex min-h-screen items-center justify-center'>
-          <div className='text-muted-foreground'>{t('Loading...')}</div>
-        </main>
-      </PublicLayout>
-    )
+    return <PicDesignHome isAuthenticated={isAuthenticated} />
   }
 
   if (content) {
