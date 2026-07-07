@@ -122,24 +122,6 @@ For commercial licensing, please contact support@quantumnous.com
   flex: 0 0 auto;
   overflow: hidden;
   border-radius: var(--picdesign-radius);
-  background:
-    linear-gradient(currentColor, currentColor) center / 100% 5px no-repeat,
-    linear-gradient(currentColor, currentColor) center / 5px 100% no-repeat,
-    linear-gradient(
-        45deg,
-        transparent 44%,
-        currentColor 45% 55%,
-        transparent 56%
-      )
-      center / 100% 100% no-repeat,
-    linear-gradient(
-        -45deg,
-        transparent 44%,
-        currentColor 45% 55%,
-        transparent 56%
-      )
-      center / 100% 100% no-repeat;
-  color: var(--picdesign-accent);
 }
 
 .picdesign-brand-logo img {
