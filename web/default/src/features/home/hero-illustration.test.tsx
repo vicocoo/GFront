@@ -91,7 +91,7 @@ describe('HeroIllustration', () => {
     )
   })
 
-  test('uses linear sampled motion for smoother dialogue floating', () => {
+  test('uses classic PicDesign float parameters while keeping dialogue phases offset', () => {
     const css = readFileSync(
       new URL('./picdesign-home.css', import.meta.url),
       'utf8'
@@ -104,17 +104,27 @@ describe('HeroIllustration', () => {
       css,
       '.picdesign-home.js-motion .picdesign-hero-claude {'
     )
+    const chatgptKeyframes = getCssBlock(
+      css,
+      '@keyframes picdesign-chatgpt-float {'
+    )
+    const claudeKeyframes = getCssBlock(
+      css,
+      '@keyframes picdesign-claude-float {'
+    )
 
-    assert.match(chatgptRule, /picdesign-chatgpt-float [^;]* linear /)
-    assert.match(claudeRule, /picdesign-claude-float [^;]* linear /)
     assert.match(
-      getCssBlock(css, '@keyframes picdesign-chatgpt-float {'),
-      /translate3d\(0,\s*[-0-9.]+px,\s*0\)/
+      chatgptRule,
+      /animation:\s*picdesign-chatgpt-float 7s ease-in-out 1\.4s infinite;/
     )
     assert.match(
-      getCssBlock(css, '@keyframes picdesign-claude-float {'),
-      /translate3d\(0,\s*[-0-9.]+px,\s*0\)/
+      claudeRule,
+      /animation:\s*picdesign-claude-float 7s ease-in-out -2\.1s infinite;/
     )
+    assert.match(chatgptKeyframes, /transform:\s*translateY\(0\);/)
+    assert.match(chatgptKeyframes, /transform:\s*translateY\(-9px\);/)
+    assert.match(claudeKeyframes, /transform:\s*translateY\(0\);/)
+    assert.match(claudeKeyframes, /transform:\s*translateY\(-9px\);/)
   })
 
   test('keeps star positions fixed while twinkling through opacity only', () => {
