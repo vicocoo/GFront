@@ -24,7 +24,6 @@ import { useTranslation } from 'react-i18next'
 import { useStatus } from '@/hooks/use-status'
 import { useSystemConfig } from '@/hooks/use-system-config'
 
-import heroIllustration from '../../assets/hero-illustration.webp'
 import { usePicDesignReveal } from '../../hooks'
 import {
   getPicDesignPrimaryAction,
@@ -34,6 +33,7 @@ import {
 } from '../../picdesign-content'
 
 import '../../picdesign-home.css'
+import { HeroIllustration } from './hero-illustration'
 import { ModelsPanel } from './models-panel'
 import { PicDesignFooter } from './picdesign-footer'
 import { PicDesignHeader } from './picdesign-header'
@@ -99,9 +99,10 @@ export function PicDesignHome(props: PicDesignHomeProps) {
 
               <h1 id='picdesign-hero-title'>
                 <PixelTitle text={systemName} />
-                <span className='picdesign-hero-subtitle'>
-                  {t(picDesignHero.subtitle)}
-                </span>
+                <PixelTitle
+                  text={t(picDesignHero.subtitle)}
+                  className='picdesign-hero-subtitle'
+                />
               </h1>
 
               <p className='picdesign-hero-description'>
@@ -139,7 +140,7 @@ export function PicDesignHome(props: PicDesignHomeProps) {
             </div>
 
             <div className='picdesign-hero-art' aria-hidden='true'>
-              <img src={heroIllustration} alt='' />
+              <HeroIllustration />
             </div>
           </section>
 

@@ -18,10 +18,13 @@ For commercial licensing, please contact support@quantumnous.com
 */
 import { useRef } from 'react'
 
+import { cn } from '@/lib/utils'
+
 import { usePixelTitle } from '../../hooks'
 
 type PixelTitleProps = {
   text: string
+  className?: string
 }
 
 export function PixelTitle(props: PixelTitleProps) {
@@ -37,7 +40,10 @@ export function PixelTitle(props: PixelTitleProps) {
   })
 
   return (
-    <span ref={rootRef} className='picdesign-pixel-title'>
+    <span
+      ref={rootRef}
+      className={cn('picdesign-pixel-title', props.className)}
+    >
       <span ref={textRef} className='picdesign-pixel-text'>
         {props.text}
       </span>

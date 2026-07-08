@@ -389,6 +389,10 @@ For commercial licensing, please contact support@quantumnous.com
   white-space: nowrap;
 }
 
+.picdesign-pixel-title.picdesign-hero-subtitle {
+  font-size: inherit;
+}
+
 .picdesign-hero-description {
   max-width: 590px;
   margin: 0;
@@ -474,13 +478,30 @@ For commercial licensing, please contact support@quantumnous.com
   margin-right: 0;
 }
 
-.picdesign-hero-art img {
-  display: block;
+.picdesign-hero-art-stack {
+  position: relative;
   width: min(740px, 54vw);
   max-width: none;
-  height: auto;
   margin-left: auto;
+}
+
+.picdesign-hero-art img {
+  display: block;
+  pointer-events: none;
   user-select: none;
+}
+
+.picdesign-hero-background {
+  width: 100%;
+  height: auto;
+}
+
+.picdesign-hero-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .picdesign-models-panel {
@@ -1110,13 +1131,75 @@ For commercial licensing, please contact support@quantumnous.com
   }
 }
 
-@keyframes picdesign-soft-float {
+@keyframes picdesign-chatgpt-float {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translate3d(0, 2px, 0);
+  }
+  12.5% {
+    transform: translate3d(0, -0.6px, 0);
+  }
+  25% {
+    transform: translate3d(0, -4px, 0);
+  }
+  37.5% {
+    transform: translate3d(0, -6.8px, 0);
   }
   50% {
-    transform: translateY(-9px);
+    transform: translate3d(0, -8px, 0);
+  }
+  62.5% {
+    transform: translate3d(0, -6.8px, 0);
+  }
+  75% {
+    transform: translate3d(0, -4px, 0);
+  }
+  87.5% {
+    transform: translate3d(0, -0.6px, 0);
+  }
+}
+
+@keyframes picdesign-claude-float {
+  0%,
+  100% {
+    transform: translate3d(0, -4px, 0);
+  }
+  12.5% {
+    transform: translate3d(0, -1px, 0);
+  }
+  25% {
+    transform: translate3d(0, 2.2px, 0);
+  }
+  37.5% {
+    transform: translate3d(0, 4.8px, 0);
+  }
+  50% {
+    transform: translate3d(0, 5.8px, 0);
+  }
+  62.5% {
+    transform: translate3d(0, 4.8px, 0);
+  }
+  75% {
+    transform: translate3d(0, 2.2px, 0);
+  }
+  87.5% {
+    transform: translate3d(0, -1px, 0);
+  }
+}
+
+@keyframes picdesign-star-twinkle {
+  0%,
+  100% {
+    opacity: 0.34;
+  }
+  36% {
+    opacity: 0.82;
+  }
+  58% {
+    opacity: 0.48;
+  }
+  76% {
+    opacity: 0.66;
   }
 }
 
@@ -1158,8 +1241,24 @@ For commercial licensing, please contact support@quantumnous.com
   animation: picdesign-hero-art-in 1s var(--picdesign-ease-out) 0.32s forwards;
 }
 
-.picdesign-home.js-motion .picdesign-hero-art img {
-  animation: picdesign-soft-float 7s ease-in-out 1.4s infinite;
+.picdesign-home.js-motion .picdesign-hero-chatgpt {
+  animation: picdesign-chatgpt-float 7.4s linear -1.1s infinite;
+  will-change: transform;
+}
+
+.picdesign-home.js-motion .picdesign-hero-claude {
+  animation: picdesign-claude-float 8.1s linear -4s infinite;
+  will-change: transform;
+}
+
+.picdesign-home.js-motion .picdesign-hero-star-lower {
+  animation: picdesign-star-twinkle 4.8s linear -0.9s infinite;
+  will-change: opacity;
+}
+
+.picdesign-home.js-motion .picdesign-hero-star-upper {
+  animation: picdesign-star-twinkle 5.9s linear -3.2s infinite;
+  will-change: opacity;
 }
 
 .picdesign-home.js-motion
@@ -1288,7 +1387,7 @@ For commercial licensing, please contact support@quantumnous.com
     margin: 0;
   }
 
-  .picdesign-hero-art img {
+  .picdesign-hero-art-stack {
     width: min(760px, 100%);
     margin: 0 auto;
   }
@@ -1414,7 +1513,7 @@ For commercial licensing, please contact support@quantumnous.com
     margin-top: 32px;
   }
 
-  .picdesign-hero-art img {
+  .picdesign-hero-art-stack {
     width: 100%;
   }
 
@@ -1557,6 +1656,7 @@ For commercial licensing, please contact support@quantumnous.com
     .picdesign-pixel-title.is-pixel-ready
     .picdesign-pixel-dot,
   .picdesign-home.js-motion .picdesign-hero-art,
+  .picdesign-home.js-motion .picdesign-hero-layer,
   .picdesign-home.js-motion .picdesign-price-table .picdesign-price-chip {
     opacity: 1 !important;
     filter: none !important;
