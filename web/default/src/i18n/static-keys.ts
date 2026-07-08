@@ -173,7 +173,7 @@ export const STATIC_I18N_KEYS = [
   'Multi-user management with flexible permission allocation',
   'Technical Support',
   'Professional team providing 24/7 technical support',
-  'API / stable / efficient / convenient',
+  'Stable / efficient / convenient',
   'API',
   'Stable AI model relay service supporting ChatGPT, Claude, and other mainstream models.',
   'Pay as you go, with pricing as low as 3% of official rates.',

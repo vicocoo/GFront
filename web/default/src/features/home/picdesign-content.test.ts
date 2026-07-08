@@ -21,6 +21,8 @@ import { describe, test } from 'node:test'
 
 import {
   getPicDesignPrimaryAction,
+  picDesignFooterColumns,
+  picDesignHero,
   picDesignModelCards,
   picDesignPricingRows,
   PICDESIGN_MODEL_SQUARE_HREF,
@@ -69,6 +71,21 @@ describe('picdesign homepage content behavior', () => {
 
   test('uses the model square for pricing and model links', () => {
     assert.equal(PICDESIGN_MODEL_SQUARE_HREF, '/pricing')
+  })
+
+  test('uses the compact PicDesign hero eyebrow copy', () => {
+    assert.equal(picDesignHero.eyebrow, 'Stable / efficient / convenient')
+  })
+
+  test('keeps only one model square footer link', () => {
+    const modelSquareLinks = picDesignFooterColumns
+      .flatMap((column) => column.links)
+      .filter((link) => link.href === PICDESIGN_MODEL_SQUARE_HREF)
+
+    assert.deepEqual(
+      modelSquareLinks.map((link) => link.label),
+      ['Model Square']
+    )
   })
 
   test('uses the requested PicDesign model and pricing highlights', () => {

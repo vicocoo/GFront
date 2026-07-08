@@ -104,7 +104,7 @@ export const picDesignIcons: Record<PicDesignIconName, LucideIcon> = {
 }
 
 export const picDesignHero = {
-  eyebrow: 'API / stable / efficient / convenient',
+  eyebrow: 'Stable / efficient / convenient',
   subtitle: 'API',
   description:
     'Stable AI model relay service supporting ChatGPT, Claude, and other mainstream models.',
@@ -227,8 +227,7 @@ export const picDesignFooterColumns: PicDesignFooterColumn[] = [
   {
     title: 'Product',
     links: [
-      { label: 'Pricing', href: PICDESIGN_MODEL_SQUARE_HREF },
-      { label: 'Supported models', href: PICDESIGN_MODEL_SQUARE_HREF },
+      { label: 'Model Square', href: PICDESIGN_MODEL_SQUARE_HREF },
       { label: 'Console', href: '/dashboard' },
     ],
   },
@@ -236,16 +235,9 @@ export const picDesignFooterColumns: PicDesignFooterColumn[] = [
     title: 'Resources',
     links: [
       { label: 'Docs', href: 'docs' },
-      { label: 'Model Square', href: PICDESIGN_MODEL_SQUARE_HREF },
       { label: 'About', href: '/about' },
-    ],
-  },
-  {
-    title: 'Support',
-    links: [
       { label: 'User Agreement', href: '/user-agreement', legal: true },
       { label: 'Privacy Policy', href: '/privacy-policy', legal: true },
-      { label: 'Sign in', href: '/sign-in' },
     ],
   },
 ]

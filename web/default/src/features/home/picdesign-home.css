@@ -311,11 +311,23 @@ For commercial licensing, please contact support@quantumnous.com
 }
 
 .picdesign-eyebrow-dot {
-  width: 8px;
-  height: 8px;
+  position: relative;
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
   border-radius: 999px;
   background: var(--picdesign-accent);
-  box-shadow: 0 0 0 5px rgba(223, 143, 110, 0.13);
+  box-shadow: 0 0 0 5px rgba(223, 143, 110, 0.14);
+}
+
+.picdesign-eyebrow-dot::before {
+  position: absolute;
+  inset: -8px;
+  border-radius: inherit;
+  background: rgba(223, 143, 110, 0.18);
+  content: '';
+  opacity: 0.35;
+  transform: scale(0.72);
 }
 
 .picdesign-hero-copy h1 {
@@ -914,7 +926,7 @@ For commercial licensing, please contact support@quantumnous.com
 
 .picdesign-footer-inner {
   display: grid;
-  grid-template-columns: minmax(260px, 1.6fr) repeat(4, minmax(120px, 0.72fr));
+  grid-template-columns: minmax(260px, 1.7fr) repeat(3, minmax(140px, 0.82fr));
   gap: 66px;
   padding: 50px 0 42px;
 }
@@ -1199,10 +1211,24 @@ For commercial licensing, please contact support@quantumnous.com
 @keyframes picdesign-dot-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 5px rgba(223, 143, 110, 0.13);
+    box-shadow: 0 0 0 5px rgba(223, 143, 110, 0.14);
+    transform: scale(0.94);
   }
   50% {
-    box-shadow: 0 0 0 8px rgba(223, 143, 110, 0.05);
+    box-shadow: 0 0 0 8px rgba(223, 143, 110, 0.08);
+    transform: scale(1.08);
+  }
+}
+
+@keyframes picdesign-dot-breathe {
+  0%,
+  100% {
+    opacity: 0.34;
+    transform: scale(0.72);
+  }
+  50% {
+    opacity: 0.08;
+    transform: scale(1.34);
   }
 }
 
@@ -1218,6 +1244,10 @@ For commercial licensing, please contact support@quantumnous.com
 
 .picdesign-home.js-motion .picdesign-eyebrow-dot {
   animation: picdesign-dot-pulse 2.8s ease-in-out infinite;
+}
+
+.picdesign-home.js-motion .picdesign-eyebrow-dot::before {
+  animation: picdesign-dot-breathe 2.8s ease-in-out infinite;
 }
 
 .picdesign-home.js-motion .picdesign-status-ok i {
