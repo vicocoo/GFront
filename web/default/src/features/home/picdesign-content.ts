@@ -17,6 +17,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import {
+  Activity,
   Box,
   ChartNoAxesCombined,
   CircleDollarSign,
@@ -46,6 +47,7 @@ export type PicDesignPrimaryActionOptions = {
 }
 
 export type PicDesignIconName =
+  | 'activity'
   | 'box'
   | 'chart'
   | 'code'
@@ -89,6 +91,7 @@ export type PicDesignFooterColumn = {
 }
 
 export const picDesignIcons: Record<PicDesignIconName, LucideIcon> = {
+  activity: Activity,
   box: Box,
   chart: ChartNoAxesCombined,
   code: Code2,
@@ -104,42 +107,41 @@ export const picDesignIcons: Record<PicDesignIconName, LucideIcon> = {
 }
 
 export const picDesignHero = {
-  eyebrow: 'Stable / efficient / convenient',
+  eyebrow: 'Frontier / stable / worry-free',
   subtitle: 'API',
   description:
-    'Stable AI model relay service supporting ChatGPT, Claude, and other mainstream models.',
+    'One API connects to GPT-5.6, Claude Fable 5, and other frontier models.',
   savingsDescription:
-    'Pay as you go, with pricing as low as 3% of official rates.',
-  savingsStrong: 'Save up to 97%.',
+    'Pay by usage, pricing starts at official <discount>3%</discount>, <savings>save up to 97%</savings>.',
   docsLabel: 'View Docs',
 } as const
 
 export const picDesignTrustPills: PicDesignFeatureCard[] = [
-  { icon: 'dollar', title: 'Pay as you go', description: '' },
-  { icon: 'shield', title: 'Stable and reliable', description: '' },
-  { icon: 'zap', title: 'Fast response', description: '' },
-  { icon: 'lock', title: 'Private and secure', description: '' },
+  { icon: 'dollar', title: 'Metered billing', description: '' },
+  { icon: 'activity', title: 'High availability', description: '' },
+  { icon: 'zap', title: 'Millisecond response', description: '' },
+  { icon: 'lock', title: 'Private security', description: '' },
 ]
 
 export const picDesignModelCards: PicDesignModelCard[] = [
   {
-    name: 'GPT-5.5',
-    description: 'Frontier coding and professional work',
+    name: 'GPT-5.6 Sol',
+    description: 'Flagship reasoning for complex coding',
     provider: 'openai',
   },
   {
-    name: 'GPT-5.4',
-    description: 'Affordable coding and professional work',
+    name: 'GPT-5.6 Terra',
+    description: 'Balanced efficiency for daily tasks',
     provider: 'openai',
   },
   {
     name: 'Claude Fable 5',
-    description: 'Long-running agent intelligence',
+    description: 'Multi-day autonomy benchmark for long-horizon agents',
     provider: 'claude',
   },
   {
     name: 'Claude Opus 4.8',
-    description: 'Complex agentic coding and enterprise work',
+    description: 'Complex coding with reliable autonomous delivery',
     provider: 'claude',
   },
   {

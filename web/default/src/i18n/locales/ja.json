@@ -5154,6 +5154,17 @@
     "Zero retention": "データ保持なし",
     "Zhipu": "Zhipu",
     "Zhipu V4": "Zhipu V 4",
-    "Zoom": "ズーム"
+    "Zoom": "ズーム",
+    "Frontier / stable / worry-free": "最先端 / 安定 / 安心",
+    "One API connects to GPT-5.6, Claude Fable 5, and other frontier models.": "1つの API で GPT-5.6 や Claude Fable 5 などの最先端モデルに接続できます。",
+    "Pay by usage, pricing starts at official <discount>3%</discount>, <savings>save up to 97%</savings>.": "従量課金で、公式料金の <discount>3%</discount> から利用でき、<savings>最大 97% 削減</savings>。",
+    "Metered billing": "従量課金",
+    "High availability": "高可用性",
+    "Millisecond response": "ミリ秒応答",
+    "Private security": "プライベートで安全",
+    "Flagship reasoning for complex coding": "複雑なコーディングを攻めるフラッグシップ推論",
+    "Balanced efficiency for daily tasks": "日常タスクの主力となる高効率バランス",
+    "Multi-day autonomy benchmark for long-horizon agents": "長期エージェントの多日自律ベンチマーク",
+    "Complex coding with reliable autonomous delivery": "複雑なコーディングを信頼できる自律納品で"
   }
 }

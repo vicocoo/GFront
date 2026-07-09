@@ -25,6 +25,7 @@ import {
   picDesignHero,
   picDesignModelCards,
   picDesignPricingRows,
+  picDesignTrustPills,
   PICDESIGN_MODEL_SQUARE_HREF,
 } from './picdesign-content'
 
@@ -74,7 +75,30 @@ describe('picdesign homepage content behavior', () => {
   })
 
   test('uses the compact PicDesign hero eyebrow copy', () => {
-    assert.equal(picDesignHero.eyebrow, 'Stable / efficient / convenient')
+    assert.equal(picDesignHero.eyebrow, 'Frontier / stable / worry-free')
+    assert.equal(
+      picDesignHero.description,
+      'One API connects to GPT-5.6, Claude Fable 5, and other frontier models.'
+    )
+    assert.equal(
+      picDesignHero.savingsDescription,
+      'Pay by usage, pricing starts at official <discount>3%</discount>, <savings>save up to 97%</savings>.'
+    )
+  })
+
+  test('uses the requested PicDesign hero trust pills', () => {
+    assert.deepEqual(
+      picDesignTrustPills.map((pill) => ({
+        icon: pill.icon,
+        title: pill.title,
+      })),
+      [
+        { icon: 'dollar', title: 'Metered billing' },
+        { icon: 'activity', title: 'High availability' },
+        { icon: 'zap', title: 'Millisecond response' },
+        { icon: 'lock', title: 'Private security' },
+      ]
+    )
   })
 
   test('keeps only one model square footer link', () => {
@@ -91,7 +115,17 @@ describe('picdesign homepage content behavior', () => {
   test('uses the requested PicDesign model and pricing highlights', () => {
     assert.deepEqual(
       picDesignModelCards.slice(0, 4).map((model) => model.name),
-      ['GPT-5.5', 'GPT-5.4', 'Claude Fable 5', 'Claude Opus 4.8']
+      ['GPT-5.6 Sol', 'GPT-5.6 Terra', 'Claude Fable 5', 'Claude Opus 4.8']
+    )
+
+    assert.deepEqual(
+      picDesignModelCards.slice(0, 4).map((model) => model.description),
+      [
+        'Flagship reasoning for complex coding',
+        'Balanced efficiency for daily tasks',
+        'Multi-day autonomy benchmark for long-horizon agents',
+        'Complex coding with reliable autonomous delivery',
+      ]
     )
 
     assert.deepEqual(picDesignPricingRows, [

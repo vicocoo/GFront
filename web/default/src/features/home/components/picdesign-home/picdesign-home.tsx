@@ -19,7 +19,7 @@ For commercial licensing, please contact support@quantumnous.com
 import { Link } from '@tanstack/react-router'
 import { BookOpenText, ChevronRight } from 'lucide-react'
 import { useRef } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { useStatus } from '@/hooks/use-status'
 import { useSystemConfig } from '@/hooks/use-system-config'
@@ -108,8 +108,13 @@ export function PicDesignHome(props: PicDesignHomeProps) {
               <p className='picdesign-hero-description'>
                 {t(picDesignHero.description)}
                 <br />
-                {t(picDesignHero.savingsDescription)}{' '}
-                <strong>{t(picDesignHero.savingsStrong)}</strong>
+                <Trans
+                  i18nKey={picDesignHero.savingsDescription}
+                  components={{
+                    discount: <strong />,
+                    savings: <strong />,
+                  }}
+                />
               </p>
 
               <div className='picdesign-hero-actions'>
