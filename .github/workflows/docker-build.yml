@@ -5,6 +5,8 @@ on:
     tags:
       - '*'
       - '!nightly*'
+      # This feature tag is intentionally published without enabling general nightly builds.
+      - 'nightly-alpha-search-openai-codex-20260720'
   workflow_dispatch:
     inputs:
       tag:
