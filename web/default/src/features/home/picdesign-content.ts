@@ -154,13 +154,13 @@ export const picDesignModelCards: PicDesignModelCard[] = [
 
 export const picDesignPricingRows: PicDesignPricingRow[] = [
   {
-    model: 'GPT-5.5',
+    model: 'GPT-5.6 Sol',
     officialPrice: '$30.00',
     discountLabel: 'discount of',
     maximumSavings: '96%',
   },
   {
-    model: 'GPT-5.4',
+    model: 'GPT-5.6 Terra',
     officialPrice: '$15.00',
     discountLabel: 'discount of',
     maximumSavings: '96%',

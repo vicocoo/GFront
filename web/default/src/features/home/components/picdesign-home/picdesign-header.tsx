@@ -17,16 +17,26 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import { Link, useRouterState } from '@tanstack/react-router'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, Menu, X } from 'lucide-react'
+import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { LanguageSwitcher } from '@/components/language-switcher'
 import { HeaderLogo } from '@/components/layout/components/header-logo'
 import { ProfileDropdown } from '@/components/profile-dropdown'
+import { Button } from '@/components/ui/button'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useStatus } from '@/hooks/use-status'
 import { useSystemConfig } from '@/hooks/use-system-config'
-import { useTopNavLinks } from '@/hooks/use-top-nav-links'
+import { type TopNavLink, useTopNavLinks } from '@/hooks/use-top-nav-links'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth-store'
 
@@ -36,8 +46,46 @@ type PicDesignHeaderProps = {
   systemName: string
 }
 
+type PicDesignNavItemProps = {
+  link: TopNavLink
+  pathname: string
+  onNavigate?: () => void
+}
+
+function PicDesignNavItem(props: PicDesignNavItemProps) {
+  const isActive = props.pathname === props.link.href
+  const className = cn(isActive && 'active', props.link.disabled && 'disabled')
+
+  if (props.link.external) {
+    return (
+      <a
+        href={props.link.href}
+        target='_blank'
+        rel='noopener noreferrer'
+        className={className}
+        aria-disabled={props.link.disabled}
+        onClick={props.onNavigate}
+      >
+        {props.link.title}
+      </a>
+    )
+  }
+
+  return (
+    <Link
+      to={props.link.href}
+      disabled={props.link.disabled}
+      className={className}
+      onClick={props.onNavigate}
+    >
+      {props.link.title}
+    </Link>
+  )
+}
+
 export function PicDesignHeader(props: PicDesignHeaderProps) {
   const { t } = useTranslation()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { logo, loading, logoLoaded } = useSystemConfig()
   const { status } = useStatus()
   const links = useTopNavLinks()
@@ -52,6 +100,20 @@ export function PicDesignHeader(props: PicDesignHeaderProps) {
     registerEnabled,
     selfUseModeEnabled,
   })
+  let mobileAccountAction: ReactNode = null
+  if (isAuthenticated) {
+    mobileAccountAction = <ProfileDropdown />
+  } else if (primaryAction.label !== 'Sign in') {
+    mobileAccountAction = (
+      <Link
+        className='picdesign-mobile-auth-link'
+        to='/sign-in'
+        onClick={() => setMobileMenuOpen(false)}
+      >
+        {t('Sign in')}
+      </Link>
+    )
+  }
 
   return (
     <header className='picdesign-site-header' aria-label={t('Main navigation')}>
@@ -73,58 +135,105 @@ export function PicDesignHeader(props: PicDesignHeaderProps) {
       </Link>
 
       <nav className='picdesign-nav-links' aria-label={t('Page navigation')}>
-        {links.map((link) => {
-          const isActive = pathname === link.href
-          if (link.external) {
-            return (
-              <a
-                key={`${link.href}-${link.title}`}
-                href={link.href}
-                target='_blank'
-                rel='noopener noreferrer'
-                className={cn(
-                  isActive && 'active',
-                  link.disabled && 'disabled'
-                )}
-                aria-disabled={link.disabled}
-              >
-                {t(link.title)}
-              </a>
-            )
-          }
-          return (
-            <Link
-              key={`${link.href}-${link.title}`}
-              to={link.href}
-              disabled={link.disabled}
-              className={cn(isActive && 'active', link.disabled && 'disabled')}
-            >
-              {t(link.title)}
-            </Link>
-          )
-        })}
+        {links.map((link) => (
+          <PicDesignNavItem
+            key={`${link.href}-${link.title}`}
+            link={link}
+            pathname={pathname}
+          />
+        ))}
       </nav>
 
       <div className='picdesign-header-actions'>
-        <LanguageSwitcher />
-        {isAuthenticated ? (
-          <>
-            <Link className='picdesign-login-link' to='/dashboard'>
-              {t('Console')}
-            </Link>
-            <ProfileDropdown />
-          </>
-        ) : (
-          <>
-            <Link className='picdesign-login-link' to='/sign-in'>
-              {t('Sign in')}
-            </Link>
-            <Link className='picdesign-register-button' to={primaryAction.href}>
-              {t(primaryAction.label)}
-              <ChevronRight aria-hidden='true' />
-            </Link>
-          </>
-        )}
+        <div className='picdesign-desktop-actions'>
+          <LanguageSwitcher />
+          {isAuthenticated ? (
+            <>
+              <Link className='picdesign-login-link' to='/dashboard'>
+                {t('Console')}
+              </Link>
+              <ProfileDropdown />
+            </>
+          ) : (
+            <>
+              <Link className='picdesign-login-link' to='/sign-in'>
+                {t('Sign in')}
+              </Link>
+              <Link
+                className='picdesign-register-button'
+                to={primaryAction.href}
+              >
+                {t(primaryAction.label)}
+                <ChevronRight aria-hidden='true' />
+              </Link>
+            </>
+          )}
+        </div>
+
+        <Link
+          className='picdesign-register-button picdesign-mobile-primary'
+          to={primaryAction.href}
+        >
+          {t(isAuthenticated ? 'Console' : primaryAction.label)}
+          <ChevronRight aria-hidden='true' />
+        </Link>
+
+        <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+          <SheetTrigger
+            render={
+              <Button
+                variant='ghost'
+                size='icon-lg'
+                className='picdesign-mobile-menu-trigger'
+                aria-label={t('Main navigation')}
+              />
+            }
+          >
+            <Menu aria-hidden='true' />
+          </SheetTrigger>
+          <SheetContent
+            className='picdesign-mobile-menu'
+            showCloseButton={false}
+          >
+            <SheetClose
+              render={
+                <Button
+                  variant='ghost'
+                  size='icon-sm'
+                  className='picdesign-mobile-menu-close'
+                  aria-label={t('Close')}
+                />
+              }
+            >
+              <X aria-hidden='true' />
+            </SheetClose>
+            <SheetHeader className='picdesign-mobile-menu-header'>
+              <SheetTitle>{props.systemName}</SheetTitle>
+            </SheetHeader>
+
+            <nav
+              className='picdesign-mobile-nav-links'
+              aria-label={t('Page navigation')}
+            >
+              {links.map((link) => (
+                <PicDesignNavItem
+                  key={`${link.href}-${link.title}`}
+                  link={link}
+                  pathname={pathname}
+                  onNavigate={() => setMobileMenuOpen(false)}
+                />
+              ))}
+            </nav>
+
+            <div className='picdesign-mobile-menu-footer'>
+              <div className='picdesign-mobile-language'>
+                <span>{t('Change language')}</span>
+                <LanguageSwitcher />
+              </div>
+              {mobileAccountAction}
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </header>
   )
