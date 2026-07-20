@@ -8,6 +8,7 @@ import (
 
 	relayconstant "github.com/QuantumNous/new-api/relay/constant"
 	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
@@ -73,7 +74,7 @@ func TestMaxTokensBounds(t *testing.T) {
 	t.Run("codex search model required", func(t *testing.T) {
 		c := newJSONContext(t, `{"id":"search-1","commands":{"search_query":[{"q":"test"}]}}`)
 		_, err := GetAndValidateCodexSearchRequest(c)
-		require.EqualError(t, err, "model is required")
+		assert.EqualError(t, err, "model is required")
 	})
 
 	t.Run("codex search max_output_tokens overflow rejected", func(t *testing.T) {
@@ -87,7 +88,7 @@ func TestMaxTokensBounds(t *testing.T) {
 		c := newJSONContext(t, `{"id":"search-1","model":"gpt-5.4","unknown_alpha_field":true,"max_output_tokens":4096}`)
 		req, err := GetAndValidateCodexSearchRequest(c)
 		require.NoError(t, err)
-		require.Equal(t, "gpt-5.4", req.Model)
-		require.EqualValues(t, 4096, *req.MaxOutputTokens)
+		assert.Equal(t, "gpt-5.4", req.Model)
+		assert.EqualValues(t, 4096, *req.MaxOutputTokens)
 	})
 }

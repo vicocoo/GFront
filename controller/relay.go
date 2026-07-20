@@ -78,7 +78,7 @@ func settleCodexSearchBilling(c *gin.Context, info *relaycommon.RelayInfo) {
 	if err := service.SettleBilling(c, info, info.PriceData.Quota); err == nil {
 		return
 	} else {
-		common.SysError("settle Codex search billing error: " + err.Error())
+		common.SysError("settle standalone search billing error: " + err.Error())
 	}
 
 	if info.Billing == nil || !info.Billing.NeedsRefund() {
@@ -88,7 +88,7 @@ func settleCodexSearchBilling(c *gin.Context, info *relaycommon.RelayInfo) {
 	info.PriceData.Quota = chargedQuota
 	common.SetContextKey(c, constant.ContextKeyCodexSearchBillingFallback, true)
 	if err := service.SettleBilling(c, info, chargedQuota); err != nil {
-		common.SysError("finalize Codex search reserved billing error: " + err.Error())
+		common.SysError("finalize standalone search reserved billing error: " + err.Error())
 	}
 }
 
@@ -159,9 +159,9 @@ func Relay(c *gin.Context, relayFormat types.RelayFormat) {
 		newAPIError = types.NewError(err, types.ErrorCodeGenRelayInfoFailed)
 		return
 	}
-	if relayFormat == types.RelayFormatCodexSearch && c.GetInt("channel_type") != constant.ChannelTypeCodex {
+	if relayFormat == types.RelayFormatCodexSearch && !constant.IsAlphaSearchChannelType(c.GetInt("channel_type")) {
 		newAPIError = types.NewErrorWithStatusCode(
-			errors.New("standalone search is only supported by Codex channels"),
+			errors.New("standalone search is only supported by OpenAI and Codex channels"),
 			types.ErrorCodeInvalidRequest,
 			http.StatusBadRequest,
 			types.ErrOptionWithSkipRetry(),

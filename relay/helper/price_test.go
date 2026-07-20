@@ -14,6 +14,7 @@ import (
 	"github.com/QuantumNous/new-api/setting/ratio_setting"
 	"github.com/QuantumNous/new-api/types"
 	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
@@ -94,18 +95,18 @@ func TestCodexSearchPriceHelperUsesModelAwareWebSearchPricePerCall(t *testing.T)
 	priceData, err := CodexSearchPriceHelper(c, info)
 
 	require.NoError(t, err)
-	require.Equal(t, 0.03, priceData.ModelPrice)
-	require.Equal(t, 22500, priceData.QuotaToPreConsume)
-	require.Equal(t, 22500, priceData.Quota)
-	require.True(t, priceData.UsePrice)
-	require.Equal(t, priceData, info.PriceData)
+	assert.Equal(t, 0.03, priceData.ModelPrice)
+	assert.Equal(t, 22500, priceData.QuotaToPreConsume)
+	assert.Equal(t, 22500, priceData.Quota)
+	assert.True(t, priceData.UsePrice)
+	assert.Equal(t, priceData, info.PriceData)
 
 	require.NoError(t, config.GlobalConfig.LoadFromDB(map[string]string{
 		"tool_price_setting.prices": `{"web_search":-1}`,
 	}))
 	operation_setting.RebuildToolPriceIndex()
 	_, err = CodexSearchPriceHelper(c, info)
-	require.EqualError(t, err, "web_search price cannot be negative")
+	assert.EqualError(t, err, "web_search price cannot be negative")
 
 	require.NoError(t, config.GlobalConfig.LoadFromDB(map[string]string{
 		"tool_price_setting.prices": `{"web_search":1e308}`,
@@ -115,7 +116,7 @@ func TestCodexSearchPriceHelperUsesModelAwareWebSearchPricePerCall(t *testing.T)
 	_, err = CodexSearchPriceHelper(c, info)
 	require.Error(t, err)
 	require.NotNil(t, info.QuotaClamp)
-	require.Equal(t, common.QuotaClampOverflow, info.QuotaClamp.Kind)
+	assert.Equal(t, common.QuotaClampOverflow, info.QuotaClamp.Kind)
 }
 
 func TestModelPriceHelperTieredPreConsumeMaxTokensFallback(t *testing.T) {

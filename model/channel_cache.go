@@ -209,8 +209,8 @@ func GetRandomSatisfiedChannel(group string, model string, retry int, requestPat
 }
 
 // filterChannelsByRequestPathAndModel restricts candidates by request path and
-// model. Standalone Codex Search only accepts Codex channels. Advanced Custom
-// channels are kept only when one of their configured routes matches.
+// model. Standalone Alpha Search accepts OpenAI and Codex channels. Advanced
+// Custom channels are kept only when one of their configured routes matches.
 // Caller must hold channelSyncLock (read lock). The cached slice is never mutated.
 func filterChannelsByRequestPathAndModel(channels []int, requestPath string, model string) []int {
 	if requestPath == "" || len(channels) == 0 {

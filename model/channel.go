@@ -70,14 +70,14 @@ type ChannelInfo struct {
 }
 
 // ChannelSupportsRequestPath reports whether a channel can serve a relay path.
-// Standalone Codex Search is channel-type-specific; Advanced Custom channels
-// remain constrained by their configured route table.
+// Standalone Alpha Search is limited to OpenAI and Codex channels; Advanced
+// Custom channels remain constrained by their configured route table.
 func ChannelSupportsRequestPath(channel *Channel, requestPath string, requestModel string) bool {
 	if channel == nil {
 		return false
 	}
 	if requestPath == constant.CodexSearchPath {
-		return channel.Type == constant.ChannelTypeCodex
+		return constant.IsAlphaSearchChannelType(channel.Type)
 	}
 	if channel.Type != constant.ChannelTypeAdvancedCustom {
 		return true

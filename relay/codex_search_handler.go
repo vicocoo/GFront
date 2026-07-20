@@ -15,9 +15,9 @@ import (
 
 func CodexSearchHelper(c *gin.Context, info *relaycommon.RelayInfo) *types.NewAPIError {
 	info.InitChannelMeta(c)
-	if info.ChannelType != appconstant.ChannelTypeCodex {
+	if !appconstant.IsAlphaSearchChannelType(info.ChannelType) {
 		return types.NewErrorWithStatusCode(
-			errors.New("standalone search is only supported by Codex channels"),
+			errors.New("standalone search is only supported by OpenAI and Codex channels"),
 			types.ErrorCodeInvalidRequest,
 			http.StatusBadRequest,
 			types.ErrOptionWithSkipRetry(),
@@ -26,7 +26,7 @@ func CodexSearchHelper(c *gin.Context, info *relaycommon.RelayInfo) *types.NewAP
 
 	adaptor := GetAdaptor(info.ApiType)
 	if adaptor == nil {
-		return types.NewError(errors.New("invalid Codex channel adaptor"), types.ErrorCodeInvalidApiType, types.ErrOptionWithSkipRetry())
+		return types.NewError(errors.New("invalid standalone search channel adaptor"), types.ErrorCodeInvalidApiType, types.ErrOptionWithSkipRetry())
 	}
 
 	storage, err := common.GetBodyStorage(c)
@@ -41,7 +41,7 @@ func CodexSearchHelper(c *gin.Context, info *relaycommon.RelayInfo) *types.NewAP
 	}
 	httpResp, ok := resp.(*http.Response)
 	if !ok || httpResp == nil {
-		return types.NewError(errors.New("invalid Codex search response"), types.ErrorCodeBadResponse)
+		return types.NewError(errors.New("invalid standalone search response"), types.ErrorCodeBadResponse)
 	}
 	if httpResp.StatusCode != http.StatusOK {
 		newAPIError := service.RelayErrorHandler(c.Request.Context(), httpResp, false)
