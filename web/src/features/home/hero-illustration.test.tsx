@@ -16,19 +16,19 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { describe, test } from 'node:test'
+import { resolve } from 'node:path'
 
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
+import { describe, expect, test } from 'vitest'
 
 import { HeroIllustration } from './components/picdesign-home/hero-illustration'
 
 function getCssBlock(css: string, blockStart: string): string {
   const start = css.indexOf(blockStart)
 
-  assert.notEqual(start, -1)
+  expect(start).not.toBe(-1)
 
   let depth = 0
 
@@ -46,54 +46,50 @@ function getCssBlock(css: string, blockStart: string): string {
     }
   }
 
-  assert.fail(`Could not find CSS block for ${blockStart}`)
+  throw new Error(`Could not find CSS block for ${blockStart}`)
 }
 
 describe('HeroIllustration', () => {
   test('renders separate background, dialogue, and star layers', () => {
     const markup = renderToStaticMarkup(createElement(HeroIllustration))
 
-    assert.match(markup, /class="picdesign-hero-art-stack"/)
-    assert.match(markup, /class="picdesign-hero-background"/)
-    assert.match(markup, /class="picdesign-hero-layer picdesign-hero-chatgpt"/)
-    assert.match(markup, /class="picdesign-hero-layer picdesign-hero-claude"/)
-    assert.match(
-      markup,
+    expect(markup).toMatch(/class="picdesign-hero-art-stack"/)
+    expect(markup).toMatch(/class="picdesign-hero-background"/)
+    expect(markup).toMatch(
+      /class="picdesign-hero-layer picdesign-hero-chatgpt"/
+    )
+    expect(markup).toMatch(/class="picdesign-hero-layer picdesign-hero-claude"/)
+    expect(markup).toMatch(
       /class="picdesign-hero-layer picdesign-hero-star picdesign-hero-star-lower"/
     )
-    assert.match(
-      markup,
+    expect(markup).toMatch(
       /class="picdesign-hero-layer picdesign-hero-star picdesign-hero-star-upper"/
     )
   })
 
   test('keeps dialogue and star layers on separate motion tracks', () => {
     const css = readFileSync(
-      new URL('./picdesign-home.css', import.meta.url),
+      resolve(process.cwd(), 'src/features/home/picdesign-home.css'),
       'utf8'
     )
 
-    assert.match(
-      css,
+    expect(css).toMatch(
       /\.picdesign-home\.js-motion\s+\.picdesign-hero-chatgpt\s*\{[^}]*picdesign-chatgpt-float/s
     )
-    assert.match(
-      css,
+    expect(css).toMatch(
       /\.picdesign-home\.js-motion\s+\.picdesign-hero-claude\s*\{[^}]*picdesign-claude-float/s
     )
-    assert.match(
-      css,
+    expect(css).toMatch(
       /\.picdesign-home\.js-motion\s+\.picdesign-hero-star-lower\s*\{[^}]*picdesign-star-twinkle/s
     )
-    assert.match(
-      css,
+    expect(css).toMatch(
       /\.picdesign-home\.js-motion\s+\.picdesign-hero-star-upper\s*\{[^}]*picdesign-star-twinkle/s
     )
   })
 
   test('uses classic PicDesign float parameters while keeping dialogue phases offset', () => {
     const css = readFileSync(
-      new URL('./picdesign-home.css', import.meta.url),
+      resolve(process.cwd(), 'src/features/home/picdesign-home.css'),
       'utf8'
     )
     const chatgptRule = getCssBlock(
@@ -113,23 +109,21 @@ describe('HeroIllustration', () => {
       '@keyframes picdesign-claude-float {'
     )
 
-    assert.match(
-      chatgptRule,
+    expect(chatgptRule).toMatch(
       /animation:\s*picdesign-chatgpt-float 7s ease-in-out 1\.4s infinite;/
     )
-    assert.match(
-      claudeRule,
+    expect(claudeRule).toMatch(
       /animation:\s*picdesign-claude-float 7s ease-in-out -2\.1s infinite;/
     )
-    assert.match(chatgptKeyframes, /transform:\s*translateY\(0\);/)
-    assert.match(chatgptKeyframes, /transform:\s*translateY\(-9px\);/)
-    assert.match(claudeKeyframes, /transform:\s*translateY\(0\);/)
-    assert.match(claudeKeyframes, /transform:\s*translateY\(-9px\);/)
+    expect(chatgptKeyframes).toMatch(/transform:\s*translateY\(0\);/)
+    expect(chatgptKeyframes).toMatch(/transform:\s*translateY\(-9px\);/)
+    expect(claudeKeyframes).toMatch(/transform:\s*translateY\(0\);/)
+    expect(claudeKeyframes).toMatch(/transform:\s*translateY\(-9px\);/)
   })
 
   test('keeps star positions fixed while twinkling through opacity only', () => {
     const css = readFileSync(
-      new URL('./picdesign-home.css', import.meta.url),
+      resolve(process.cwd(), 'src/features/home/picdesign-home.css'),
       'utf8'
     )
     const twinkleKeyframes = getCssBlock(
@@ -145,10 +139,10 @@ describe('HeroIllustration', () => {
       '.picdesign-home.js-motion .picdesign-hero-star-upper {'
     )
 
-    assert.match(twinkleKeyframes, /opacity:/)
-    assert.doesNotMatch(twinkleKeyframes, /transform:/)
-    assert.doesNotMatch(twinkleKeyframes, /filter:/)
-    assert.match(lowerStarRule, /will-change:\s*opacity;/)
-    assert.match(upperStarRule, /will-change:\s*opacity;/)
+    expect(twinkleKeyframes).toMatch(/opacity:/)
+    expect(twinkleKeyframes).not.toMatch(/transform:/)
+    expect(twinkleKeyframes).not.toMatch(/filter:/)
+    expect(lowerStarRule).toMatch(/will-change:\s*opacity;/)
+    expect(upperStarRule).toMatch(/will-change:\s*opacity;/)
   })
 })

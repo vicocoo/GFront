@@ -16,8 +16,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import assert from 'node:assert/strict'
-import { describe, test } from 'node:test'
+import { describe, expect, test } from 'vitest'
 
 import {
   getPicDesignPrimaryAction,
@@ -31,74 +30,67 @@ import {
 
 describe('picdesign homepage content behavior', () => {
   test('sends authenticated users to the dashboard', () => {
-    assert.deepEqual(
+    expect(
       getPicDesignPrimaryAction({
         isAuthenticated: true,
         registerEnabled: true,
         selfUseModeEnabled: false,
-      }),
-      { href: '/dashboard', label: 'Go to Dashboard' }
-    )
+      })
+    ).toEqual({ href: '/dashboard', label: 'Go to Dashboard' })
   })
 
   test('sends guests to sign up only when registration is available', () => {
-    assert.deepEqual(
+    expect(
       getPicDesignPrimaryAction({
         isAuthenticated: false,
         registerEnabled: true,
         selfUseModeEnabled: false,
-      }),
-      { href: '/sign-up', label: 'Get Started' }
-    )
+      })
+    ).toEqual({ href: '/sign-up', label: 'Get Started' })
 
-    assert.deepEqual(
+    expect(
       getPicDesignPrimaryAction({
         isAuthenticated: false,
         registerEnabled: false,
         selfUseModeEnabled: false,
-      }),
-      { href: '/sign-in', label: 'Sign in' }
-    )
+      })
+    ).toEqual({ href: '/sign-in', label: 'Sign in' })
 
-    assert.deepEqual(
+    expect(
       getPicDesignPrimaryAction({
         isAuthenticated: false,
         registerEnabled: true,
         selfUseModeEnabled: true,
-      }),
-      { href: '/sign-in', label: 'Sign in' }
-    )
+      })
+    ).toEqual({ href: '/sign-in', label: 'Sign in' })
   })
 
   test('uses the model square for pricing and model links', () => {
-    assert.equal(PICDESIGN_MODEL_SQUARE_HREF, '/pricing')
+    expect(PICDESIGN_MODEL_SQUARE_HREF).toBe('/pricing')
   })
 
   test('uses the compact PicDesign hero eyebrow copy', () => {
-    assert.equal(picDesignHero.eyebrow, 'Frontier / stable / worry-free')
-    assert.equal(
-      picDesignHero.description,
+    expect(picDesignHero.eyebrow).toBe('Frontier / stable / worry-free')
+    expect(picDesignHero.description).toBe(
       'One API connects to GPT-5.6, Claude Fable 5, and other frontier models.'
     )
-    assert.equal(
-      picDesignHero.savingsDescription,
+    expect(picDesignHero.savingsDescription).toBe(
       'Pay by usage, pricing starts at official <discount>3%</discount>, <savings>save up to 97%</savings>.'
     )
   })
 
   test('uses the requested PicDesign hero trust pills', () => {
-    assert.deepEqual(
+    expect(
       picDesignTrustPills.map((pill) => ({
         icon: pill.icon,
         title: pill.title,
-      })),
-      [
-        { icon: 'dollar', title: 'Metered billing' },
-        { icon: 'activity', title: 'High availability' },
-        { icon: 'zap', title: 'Millisecond response' },
-        { icon: 'lock', title: 'Private security' },
-      ]
-    )
+      }))
+    ).toEqual([
+      { icon: 'dollar', title: 'Metered billing' },
+      { icon: 'activity', title: 'High availability' },
+      { icon: 'zap', title: 'Millisecond response' },
+      { icon: 'lock', title: 'Private security' },
+    ])
   })
 
   test('keeps only one model square footer link', () => {
@@ -106,29 +98,27 @@ describe('picdesign homepage content behavior', () => {
       .flatMap((column) => column.links)
       .filter((link) => link.href === PICDESIGN_MODEL_SQUARE_HREF)
 
-    assert.deepEqual(
-      modelSquareLinks.map((link) => link.label),
-      ['Model Square']
-    )
+    expect(modelSquareLinks.map((link) => link.label)).toEqual(['Model Square'])
   })
 
   test('uses the requested PicDesign model and pricing highlights', () => {
-    assert.deepEqual(
-      picDesignModelCards.slice(0, 4).map((model) => model.name),
-      ['GPT-5.6 Sol', 'GPT-5.6 Terra', 'Claude Fable 5', 'Claude Opus 4.8']
-    )
+    expect(picDesignModelCards.slice(0, 4).map((model) => model.name)).toEqual([
+      'GPT-5.6 Sol',
+      'GPT-5.6 Terra',
+      'Claude Fable 5',
+      'Claude Opus 4.8',
+    ])
 
-    assert.deepEqual(
-      picDesignModelCards.slice(0, 4).map((model) => model.description),
-      [
-        'Flagship reasoning for complex coding',
-        'Balanced efficiency for daily tasks',
-        'Multi-day autonomy benchmark for long-horizon agents',
-        'Complex coding with reliable autonomous delivery',
-      ]
-    )
+    expect(
+      picDesignModelCards.slice(0, 4).map((model) => model.description)
+    ).toEqual([
+      'Flagship reasoning for complex coding',
+      'Balanced efficiency for daily tasks',
+      'Multi-day autonomy benchmark for long-horizon agents',
+      'Complex coding with reliable autonomous delivery',
+    ])
 
-    assert.deepEqual(picDesignPricingRows, [
+    expect(picDesignPricingRows).toEqual([
       {
         model: 'GPT-5.6 Sol',
         officialPrice: '$30.00',

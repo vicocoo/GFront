@@ -16,12 +16,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { describe, test } from 'node:test'
+import { resolve } from 'node:path'
 
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
+import { describe, expect, test } from 'vitest'
 
 import { PixelTitle } from './components/picdesign-home/pixel-title'
 
@@ -34,20 +34,18 @@ describe('PixelTitle', () => {
       })
     )
 
-    assert.match(
-      markup,
+    expect(markup).toMatch(
       /class="picdesign-pixel-title picdesign-hero-subtitle"/
     )
   })
 
   test('keeps the hero subtitle pixel title at the inherited hero size', () => {
     const css = readFileSync(
-      new URL('./picdesign-home.css', import.meta.url),
+      resolve(process.cwd(), 'src/features/home/picdesign-home.css'),
       'utf8'
     )
 
-    assert.match(
-      css,
+    expect(css).toMatch(
       /\.picdesign-pixel-title\.picdesign-hero-subtitle\s*\{[^}]*font-size:\s*inherit;/s
     )
   })
