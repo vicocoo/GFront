@@ -5,6 +5,7 @@ on:
     tags:
       - '*'
       - '!nightly*'
+      - 'nightly-merge-upstream-rc40-20260928'
   workflow_dispatch:
     inputs:
       tag:
